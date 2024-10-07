@@ -15,7 +15,11 @@ class AuthService {
 	 * @returns {Promise<IAuthResponse>} - Ответ с данными пользователя.
 	 */
 	public async register(body: TypeRegisterSchema, recaptcha?: string) {
-		const headers = recaptcha ? { recaptcha } : undefined
+		const headers: Record<string, string> = recaptcha
+			? { recaptcha }
+			: { recaptcha: '' }
+		headers['Access-Control-Allow-Origin'] = process.env
+			.ALLOW_ORIGIN_DOMAIN as string
 
 		const response = await api.post<IAuthResponse>(
 			'api/v1/auth/register',
@@ -36,7 +40,11 @@ class AuthService {
 	 * @returns {Promise<IAuthResponse>} - Ответ с данными пользователя.
 	 */
 	public async login(body: TypeLoginSchema, recaptcha?: string) {
-		const headers = recaptcha ? { recaptcha } : undefined
+		const headers: Record<string, string> = recaptcha
+			? { recaptcha }
+			: { recaptcha: '' }
+		headers['Access-Control-Allow-Origin'] = process.env
+			.ALLOW_ORIGIN_DOMAIN as string
 
 		const response = await api.post<IAuthResponse>(
 			'api/v1/auth/login',
